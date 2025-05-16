@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bitcoin Blocks</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 2em auto; }
+    h1 { text-align: center; }
+    ul { list-style: none; padding: 0; }
+    li { margin-bottom: 1em; padding: 1em; border: 1px solid #ccc; border-radius: 5px; }
+    .hash { font-family: monospace; color: #0066cc; }
+  </style>
+</head>
+<body>
+  <h1>Bitcoin Blocks</h1>
+  <ul id="blockList">Loading blocks...</ul>
+
+  <script>
+    async function fetchBlocks() {
+      try {
+        const res = await fetch('/blocks');
+        if (!res.ok) throw new Error('Network response not OK');
+        const blocks = await res.json();
+        
+        const list = document.getElementById('blockList');
+        list.innerHTML = '';
+
+        if (!blocks.length) {
+          list.innerHTML = '<li>No blocks yet</li>';
+          return;
+        }
+
+        blocks.forEach(block => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div>🧱 <strong>Block hash:</strong> <span class="hash">${block.hash}</span></div>
+            <div>📅 <strong>Time mined:</strong> ${block.date}</div>
+            <div>🔁 <strong>Nonce:</strong> ${block.nonce}</div>
+            <div>📏 <strong>Bits:</strong> ${block.bits}</div>
+            <div>🔢 <strong>Transactions:</strong> ${block.txCount}</div>
+          `;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error('Failed to fetch blocks:', err);
+        document.getElementById('blockList').innerHTML = '<li>Error loading blocks.</li>';
+      }
+    }
+
+    fetchBlocks();
+
+    setInterval(fetchBlocks, 60000);
+  </script>
+</body>
+</html>
