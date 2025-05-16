@@ -19,7 +19,7 @@ Node.js 18+
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourname/bitcoin-viewer-node.git
+git clone https://github.com/yuriiSY/Bitcoin-node-viewer.git
 cd bitcoin-viewer-node
 ```
 
