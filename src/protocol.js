@@ -1,6 +1,14 @@
 import { sha256, doubleSha256 } from './utils.js';
 import { Buffer } from 'buffer';
 
+/**
+ * Constructs a full Bitcoin P2P message to send to a peer.
+ * Includes magic bytes, command name, payload length, checksum, and payload.
+ *
+ * @param {string} command - The name of the Bitcoin protocol command (e.g., "version", "verack").
+ * @param {Buffer} payload - The payload of the message.
+ * @returns {Buffer} The complete message buffer ready to be sent over TCP.
+ */
 export function createMessage(command, payload) {
   const magic = Buffer.from('F9BEB4D9', 'hex');
   const commandBuf = Buffer.alloc(12, 0);
@@ -12,6 +20,12 @@ export function createMessage(command, payload) {
   return Buffer.concat([magic, commandBuf, lengthBuf, checksum, payload]);
 }
 
+/**
+ * Creates a version message payload to initiate a connection with a Bitcoin node.
+ * This includes protocol version, services, timestamps, network addresses, nonce, user agent, etc.
+ *
+ * @returns {Buffer} The payload for the "version" message.
+ */
 export function createVersionPayload() {
   const payload = Buffer.alloc(86);
   let offset = 0;

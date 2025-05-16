@@ -5,6 +5,13 @@ import { buildMessage, buildVersionPayload, parseInvPayload, parseBlockPayload, 
 let blockCallback = null;
 let array = [];
 
+
+/**
+ * Connects to a Bitcoin node via TCP and handles the Bitcoin P2P protocol.
+ * Automatically reconnects on disconnect.
+ * @param {string} host - IP address or hostname of the Bitcoin node.
+ * @param {number} port - Port to connect to (default: 8333).
+ */
 export function connectToBitcoinNode(host = '212.87.158.134', port = 8333) {
   dns.lookup(host, (err, address) => {
     if (err) return console.error('❌ DNS lookup failed for', host, ':', err);
@@ -74,7 +81,6 @@ export function connectToBitcoinNode(host = '212.87.158.134', port = 8333) {
         } else {
           console.log('ℹ️ Unknown command:', cmd);
         }
-
         buffer = buffer.slice(24 + length);
       }
     });
@@ -87,10 +93,18 @@ export function connectToBitcoinNode(host = '212.87.158.134', port = 8333) {
   });
 }
 
+/**
+ * Returns the array of all received block objects.
+ * @returns {Array} Array of block data
+ */
 export function getBlocks() {
   return array;
 }
 
+/**
+ * Registers a callback function to be called when a new block is announced via inv message.
+ * @param {Function} cb - The callback to handle new block hashes.
+ */
 export function onNewBlock(cb) {
   blockCallback = cb;
 }

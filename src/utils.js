@@ -1,7 +1,14 @@
 import crypto from 'crypto';
 
+/**
+ * Magic bytes identifying the Bitcoin mainnet protocol messages.
+ * Delimiter
+ */
 export const MAGIC = Buffer.from('f9beb4d9', 'hex');
 
+/**
+ * Bitcoin protocol command names.
+ */
 export const COMMANDS = {
     version: 'version',
     verack: 'verack',
@@ -12,6 +19,13 @@ export const COMMANDS = {
     getheaders: 'getheaders',
   };
   
+  /**
+ * Builds a getheaders message payload.
+ * Requests block headers starting from a given block hash.
+ *
+ * @param {string|null} startingBlockHash - Hex string of starting block hash.
+ * @returns {Buffer} Serialized payload.
+ */
   export function buildGetHeadersPayload(startingBlockHash = null) {
 
     const version = 70016;
@@ -44,7 +58,13 @@ export const COMMANDS = {
     return buffer.slice(0, offset);
   }
   
-
+/**
+ * Computes double SHA-256 hash of a buffer.
+ * Used for message checksums and block hashes.
+ *
+ * @param {Buffer} buffer - The input buffer.
+ * @returns {Buffer} The double SHA-256 hash of the input.
+ */
 export function sha256d(buffer) {
   return crypto.createHash('sha256').update(
     crypto.createHash('sha256').update(buffer).digest()
@@ -86,7 +106,18 @@ export function parseInvPayload(payload) {
   return result;
 }
 
-
+/**
+ * Parses a block payload into a readable object with block info.
+ *
+ * @param {Buffer} payload - The raw block payload buffer.
+ * @returns {{
+*   hash: string,
+*   date: string,
+*   nonce: number,
+*   bits: string,
+*   txCount: number
+* }} Parsed block info.
+*/
 export function parseBlockPayload(payload) {
     const buffer = Buffer.from(payload);
     let offset = 0;
@@ -123,7 +154,12 @@ export function parseBlockPayload(payload) {
     };
   }
   
-
+/**
+ * Parses a "version" message payload.
+ *
+ * @param {Buffer} payload - The version payload buffer.
+ * @returns {{version: number}} Parsed protocol version.
+ */
 export function parseVersionPayload(payload) {
   const version = payload.readUInt32LE(0);
   return { version };
