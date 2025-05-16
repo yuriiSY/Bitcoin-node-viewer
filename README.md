@@ -48,4 +48,5 @@ Open your browser and go to: http://localhost:3000
 ```
 
 ### 5. Example
-![alt text]([http://url/to/img.png](https://github.com/yuriiSY/Bitcoin-node-viewer/blob/main/img/example.PNG))
+![Example](https://raw.githubusercontent.com/yuriiSY/Bitcoin-node-viewer/main/img/example.PNG)
+
