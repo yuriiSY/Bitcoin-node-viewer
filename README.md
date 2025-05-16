@@ -39,6 +39,8 @@ node src/server.js
 You should see:
 🚀 Server running at http://localhost:3000
 ✅ Connected to Bitcoin node at ...
+
+You can also track logging in the console to see what happens
 ```
 
 Access the Web
@@ -48,3 +50,5 @@ Open your browser and go to: http://localhost:3000
 ```
 
 ### 5. Example
+![Example](https://raw.githubusercontent.com/yuriiSY/Bitcoin-node-viewer/main/img/example.PNG)
+
